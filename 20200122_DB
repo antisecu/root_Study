@@ -1,0 +1,96 @@
+// ?
+select ename, sal, ifnull(comm, '없음')
+from emp;
+
+
+// case ~ end
+select ename, deptno,
+case when deptno=10 then '경리부'
+when deptno=20 then '인사과'
+when deptno=30 then '영업부'
+when deptno=40 then '전산부'
+end as dname
+from emp;
+
+
+// Join
+select *
+from emp, dept;
+
+
+// Join 2 deptno가 같은것 끼리만 조회 결과
+select *
+from emp, dept
+where emp.deptno = dept.deptno;
+
+
+// Join 3 이문세의 이름과 소속 부서 이름 출력
+select ename, dname
+from emp, dept
+where emp.deptno = dept.deptno
+and ename = '이문세';
+
+
+// Join 4 김씨인 사람의 이름과 소속 부서 이름 출력
+select ename, dname
+from emp, dept
+where emp.deptno = dept.deptno
+and ename like '김%';
+
+
+// ?
+select emp.ename, dept.dname, emp.deptno
+from emp, dept
+where emp.deptno = dept.deptno
+and ename = '이문세';
+
+
+// 테이블에 별칭 부여 (컬럼의 모호성 해결)
+select e.ename, d.dname, e.deptno
+from emp e, dept d
+where e.deptno = d.deptno
+and e.ename = '이문세';
+
+
+// 서로 연결 뿐만 아니라 하나의 테이블 내에서 조인을 해야만
+원하는 자료를 얻는 경우가 생긴다.
+select a.ename, b.ename
+from emp a, emp b
+where a.ename = '김사랑'
+and a.mgr = b.empno;
+
+
+// 내림차순으로
+select a.ename, b.ename
+from emp a, emp b
+where a.mgr = b.empno
+order by a.ename desc, b.ename desc;
+
+
+// Q1 경리부 부서 소속 사원의 이름과 입사일을 출력하시오.
+select e.ename, e.hiredate
+from emp e, dept d
+where d.dname = '경리부'
+and  e.deptno = d.deptno;
+
+
+// Q2. 직급이 과장인 사원의 이름, 부서명을 출력하시오.
+select e.ename, d.dname
+from emp e, dept d
+where e.job = '과장'
+and e.deptno = d.deptno;
+
+
+// Q3. 감우성과 동일한 근무지에서 근무하는 사원의 이름을 출력하시오.
+(부서번호가 같고 강우성은 제외)
+select b.ename
+from emp a, emp b
+where a.deptno = b.deptno
+and a.ename = '감우성'
+and b.ename != '감우성';
+
+
+// Q4. 용인에서 근무하는 사원의 이름과 급여를 출력하시오.
+
+
+// Q5. 직속상관이 감수성인 사원들의 이름과 직급을 출력하시오.(셀프조인)
